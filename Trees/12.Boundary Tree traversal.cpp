@@ -12,12 +12,13 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-struct TreeNode
+
+struct Node
 {
     int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    Node *left;
+    Node *right;
+    Node(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution
@@ -29,7 +30,7 @@ public:
         while (cur)
         {
             if (!isLeaf(cur))
-                res.push_back(cur->data);
+                res.push_back(cur->val);
             if (cur->left)
                 cur = cur->left;
             else
@@ -44,7 +45,7 @@ public:
         while (cur)
         {
             if (!isLeaf(cur))
-                tmp.push_back(cur->data);
+                tmp.push_back(cur->val);
             if (cur->right)
                 cur = cur->right;
             else
@@ -60,7 +61,7 @@ public:
     {
         if (isLeaf(root))
         {
-            res.push_back(root->data);
+            res.push_back(root->val);
             return;
         }
         if (root->left)
@@ -80,7 +81,7 @@ public:
         if (!root)
             return res;
         if (!isLeaf(root))
-            res.push_back(root->data);
+            res.push_back(root->val);
 
         addLeftBoundary(root, res);
         addLeaves(root, res);
