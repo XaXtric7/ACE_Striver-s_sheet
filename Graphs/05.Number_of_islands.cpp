@@ -25,7 +25,7 @@ private:
                 {
                     int nrow = row + delrow;
                     int ncol = col + delcol;
-                    if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && grid[row][col] == '1' && !visited[nrow][ncol])
+                    if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && grid[nrow][ncol] == '1' && !visited[nrow][ncol])
                     {
                         visited[nrow][ncol] = 1;
                         q.push({nrow, ncol});
