@@ -1,51 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Graph
+class Solution
 {
-    int V;                   // number of vertices
-    vector<vector<int>> adj; // adjacency list
-
 public:
-    Graph(int V)
+    vector<int> bfsOfGraph(int V, vector<int> adj[])
     {
-        this->V = V;
-        adj.resize(V);
-    }
-
-    // Function to add an edge
-    void addEdge(int u, int v)
-    {
-        adj[u].push_back(v);
-        adj[v].push_back(u); // remove this line for directed graph
-    }
-
-    // bfs traversal from the source node
-    void bfs(int start)
-    {
-        vector<bool> visited(V, false); // of size V and filled with 'false' at all indices
+        int visited[V] = {0};
+        visited[0] = 1;
         queue<int> q;
-
-        visited[start] = true;
-        q.push(start);
-
-        cout << start;
-
+        q.push(0);
+        vector<int> bfs;
         while (!q.empty())
         {
             int node = q.front();
             q.pop();
-            cout << node << " ";
+            bfs.push_back(node);
 
-            for (int neighbor : adj[node])
+            for (auto it : adj[node])
             {
-                if (!visited[neighbor])
+                if (!visited[it])
                 {
-                    visited[neighbor] = true;
-                    q.push(neighbor);
+                    visited[it] = 1;
+                    q.push(it);
                 }
             }
         }
-        cout << endl;
+        return bfs;
     }
 };
