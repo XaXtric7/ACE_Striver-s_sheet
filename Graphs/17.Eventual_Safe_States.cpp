@@ -4,40 +4,50 @@ using namespace std;
 class Solution
 {
 private:
-    bool dfsCheck(int node, vector<vector<int>> &adj, vector<int> &vis, vector<int> &pathVis, vector<int> &check)
+    bool dfsCheck(int node, vector<int> adj[], int vis[], int pathVis[], int check[])
     {
+
         vis[node] = 1;
         pathVis[node] = 1;
+        check[node] = 0;
 
-        // Explore all adjacent nodes
-        for (int next : adj[node])
+        // traverse for adjacent nodes
+        for (auto it : adj[node])
         {
 
-            // If not visited, DFS on it
-            if (!vis[next])
+            // when the node is not visited
+            if (!vis[it])
             {
-                if (dfsCheck(next, adj, vis, pathVis, check))
-                    return true; // cycle found
+                if (dfsCheck(it, adj, vis, pathVis, check) == true)
+                {
+                    check[node] = 0;
+                    return true;
+                }
             }
-            // If visited AND currently on the path → cycle
-            else if (pathVis[next])
+            // if the node has been previously visited
+            // but it has to be visited on the same path
+            else if (pathVis[it] == 1)
             {
+                check[node] = 0;
                 return true;
             }
         }
-        // No cycle found → mark safe
+
         check[node] = 1;
         pathVis[node] = 0;
         return false;
     }
 
 public:
-    vector<int> eventualSafeNodes(int V, vector<vector<int>> &adj)
+    vector<int> eventualSafeNodes(int V, vector<int> adj[])
     {
 
-        vector<int> vis(V, 0), pathVis(V, 0), check(V, 0);
+        int vis[V] = {0};
+        int pathVis[V] = {0};
+        int check[V] = {0};
 
-        // Call DFS for each unvisited node
+        vector<int> safeNodes;
+
         for (int i = 0; i < V; i++)
         {
             if (!vis[i])
@@ -46,8 +56,6 @@ public:
             }
         }
 
-        // Collect safe nodes
-        vector<int> safeNodes;
         for (int i = 0; i < V; i++)
         {
             if (check[i] == 1)
