@@ -19,7 +19,7 @@ public:
 
     int findUPar(int node)
     {
-        if (node = parent[node])
+        if (node == parent[node])
         {
             return node;
         }
@@ -35,7 +35,7 @@ public:
             return;
         if (rank[ulp_u] < rank[ulp_v])
         {
-            parent[ulp_v] = ulp_v;
+            parent[ulp_u] = ulp_v;
         }
         else if (rank[ulp_v] < rank[ulp_u])
         {
