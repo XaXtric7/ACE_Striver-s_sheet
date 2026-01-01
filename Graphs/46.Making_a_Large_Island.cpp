@@ -134,13 +134,13 @@ public:
                 {
                     sizeTotal += ds.size[it];
                 }
-                mx = max(mx, sizeTotal);
+                mx = max(mx, sizeTotal + 1);
             }
         }
-        for (int celllNo = 0; cellNo < n * n; cellNo++)
+        for (int cellNo = 0; cellNo < n * n; cellNo++)
         {
-            mx = max(mx, ds.size(ds.findUPar(cellNo)));
+            mx = max(mx, ds.size[ds.findUPar(cellNo)]);
         }
-        return mc;
+        return mx;
     }
 };
