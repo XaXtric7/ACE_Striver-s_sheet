@@ -99,7 +99,7 @@ public:
                     {
                         int nodeNo = row * n + col;
                         int adjNodeNo = newr * n + newc;
-                        ds.unionBySize(nodeNo, adjNodeNo);
+                        ds.unionBySize(nodeNo, adjNodeNo); // making connections
                     }
                 }
             }
