@@ -5,7 +5,8 @@ bool subsetSumToK(int n, int k, vector<int> &arr)
 {
     vector<bool> prev(k + 1, 0), curr(k + 1, 0);
     prev[0] = curr[0] = true;
-    prev[arr[0]] = true;
+    if (arr[0] <= k)
+        prev[arr[0]] = true;
 
     for (int ind = 1; ind < n; ind++)
     {
