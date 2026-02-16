@@ -1,4 +1,4 @@
-# 🚀 ACE_Striver-s_Sheet
+# 🚀 ACEit_Sheet
 
 This repository contains all the **codes from Striver’s SDE Sheet and Playlist** that I have practiced and implemented.  
 The goal of this repo is to **track my progress, strengthen DSA concepts, and build a strong problem-solving foundation**.
