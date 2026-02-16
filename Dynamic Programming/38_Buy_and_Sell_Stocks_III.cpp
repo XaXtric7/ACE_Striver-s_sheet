@@ -17,7 +17,7 @@ int fRecur(int ind, int buy, int cap, vector<int> &prices, int n)
     }
 }
 
-int maxProfit(vector<int> &prices, int n)
+int maxProfit1(vector<int> &prices, int n)
 {
     return fRecur(0, 1, 2, prices, n);
 }
@@ -40,10 +40,36 @@ int fMemo(int ind, int buy, int cap, vector<int> &prices, int n, vector<vector<v
     }
 }
 
-int maxProfit(vector<int> &prices, int n)
+int maxProfit2(vector<int> &prices, int n)
 {
     vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(3, -1)));
     return fMemo(0, 1, 2, prices, n, dp);
+}
+
+// Using Tabulation...
+
+int maxProfit_Tab(vector<int> &prices, int n)
+{
+    vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(2, vector<int>(3, 0)));
+
+    for (int ind = n - 1; ind >= 0; ind--)
+    {
+        for (int buy = 0; buy <= 1; buy++)
+        {
+            for (int cap = 1; cap <= 2; cap++)
+            { // cap[0] = 0; ignore
+                if (buy == 1)
+                {
+                    dp[ind][buy][cap] = max(-prices[ind] + dp[ind + 1][0][cap], 0 + dp[ind + 1][1][cap]);
+                }
+                else
+                {
+                    dp[ind][buy][cap] = max(prices[ind] + dp[ind + 1][1][cap - 1], 0 + dp[ind + 1][0][cap]);
+                }
+            }
+        }
+    }
+    return dp[0][1][2];
 }
 
 // Using Space Optimization...
