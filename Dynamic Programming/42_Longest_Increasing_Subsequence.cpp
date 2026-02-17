@@ -44,26 +44,43 @@ int longestIncreasingSubsequence(int arr[], int n)
 }
 
 // Using Tabulation...O[n^2]
-int longestIncreasingSubsequence(int arr[], int n)
+int longestIncreasingSubsequence_Tab(int arr[], int n)
 {
-    vector<int> dp(n, 1);
-
-    for (int i = 0; i < n; i++)
+    vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+    for (int ind = n - 1; ind >= 0; ind--)
     {
-        for (int prev = 0; prev < i; prev++)
+        for (int prev_ind = ind - 1; prev_ind >= -1; prev_ind--)
         {
-            if (arr[i] > arr[prev])
+            int len = 0 + dp[ind + 1][prev_ind + 1];
+            if (prev_ind == -1 || arr[ind] > arr[prev_ind])
             {
-                dp[i] = max(dp[i], 1 + dp[prev]);
+                len = max(len, 1 + dp[ind + 1][ind + 1]);
             }
+            dp[ind][prev_ind + 1] = len;
         }
     }
+    return dp[0][-1 + 1];
+}
 
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-        ans = max(ans, dp[i]);
+// Using Space Optimization...
 
-    return ans;
+int longestIncreasingSubsequence_SpaceOpti(int arr[], int n)
+{
+    vector<int> next(n + 1, 0), cur(n + 1, 0);
+    for (int ind = n - 1; ind >= 0; ind--)
+    {
+        for (int prev_ind = ind - 1; prev_ind >= -1; prev_ind--)
+        {
+            int len = 0 + next[prev_ind + 1];
+            if (prev_ind == -1 || arr[ind] > arr[prev_ind])
+            {
+                len = max(len, 1 + next[ind + 1]);
+            }
+            cur[prev_ind + 1] = len;
+        }
+        next = cur;
+    }
+    return next[-1 + 1];
 }
 
 // Using Optimal LIS (Binary Search – O[n log n])
