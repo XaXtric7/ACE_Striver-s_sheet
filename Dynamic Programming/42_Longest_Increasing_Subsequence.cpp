@@ -126,3 +126,26 @@ int longestIncreasingSubsequence2(int arr[], int n)
 
     return temp.size();
 }
+
+// LIS...
+int longestStrChain3(vector<string> &arr)
+{
+    vector<int> dp(n, 1), hash(n);
+    int maxi = 1;
+    int lastIndex = 0;
+    for(int i = 0; i<n; i++) {
+        hash[i] = i;
+        for(int prev = 0; prev < i; prev++) {
+            if(arr[prev] < arr[i] &&
+               1 + dp[prev] > dp[i]) {
+                
+                dp[i] = 1 + dp[prev];
+                hash[i] = prev;
+            }
+        }
+        if(dp[i] > maxi) {
+            maxi = dp[i];
+            lastIndex = i;
+        }
+    }
+}
