@@ -114,3 +114,66 @@ int evaluateExp2(string &exp)
     vector<vector<vector<ll>>> dp(n, vector<vector<ll>>(n, vector<ll>(2, -1)));
     return fMemo(0, n - 1, 1, exp, dp);
 }
+
+// Using Tabulation...
+
+int evaluateExp3(string &exp)
+{
+    int n = exp.size();
+    vector<vector<vector<ll>>> dp(n, vector<vector<ll>>(n, vector<ll>(2, 0)));
+
+    // Base case
+    for (int i = 0; i < n; i++)
+    {
+        dp[i][i][1] = (exp[i] == 'T');
+        dp[i][i][0] = (exp[i] == 'F');
+    }
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (i >= j)
+                continue;
+
+            for (int isTrue = 0; isTrue <= 1; isTrue++)
+            {
+                ll ways = 0;
+
+                for (int ind = i + 1; ind <= j - 1; ind += 2)
+                {
+                    ll lT = dp[i][ind - 1][1];
+                    ll lF = dp[i][ind - 1][0];
+                    ll rT = dp[ind + 1][j][1];
+                    ll rF = dp[ind + 1][j][0];
+
+                    if (exp[ind] == '&')
+                    {
+                        if (isTrue)
+                            ways = (ways + (lT * rT) % mod) % mod;
+                        else
+                            ways = (ways + (lT * rF) % mod + (lF * rT) % mod + (lF * rF) % mod) % mod;
+                    }
+                    else if (exp[ind] == '|')
+                    {
+                        if (isTrue)
+                            ways = (ways + (lT * rT) % mod + (lT * rF) % mod + (lF * rT) % mod) % mod;
+                        else
+                            ways = (ways + (lF * rF) % mod) % mod;
+                    }
+                    else if (exp[ind] == '^')
+                    {
+                        if (isTrue)
+                            ways = (ways + (lT * rF) % mod + (lF * rT) % mod) % mod;
+                        else
+                            ways = (ways + (lT * rT) % mod + (lF * rF) % mod) % mod;
+                    }
+                }
+
+                dp[i][j][isTrue] = ways;
+            }
+        }
+    }
+
+    return dp[0][n - 1][1];
+}
